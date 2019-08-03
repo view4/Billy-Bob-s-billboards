@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'socialboard/style.css' %}" />
+    <meta charset="UTF-8">
+    <title>SocialBoard</title>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <div>
+            <form method='post' action="/socialboard/login/">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="name" />
+                <input type="password" name="password" placeholder="password" />
+                <input type="submit" value="login" />
+            </form>
+        </div>
+        <div>
+            <h3>Billy Bob's bangin' billboard</h3>
+        </div>
+        <div id="test">
+            <button id="myBtn">Register!</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="column">
+            {% if latest_posts %} {% for post in latest_posts %}
+            <div class="mini-bill">
+                <div class="mini-title">{{post.title}}</div>
+                <div>{{post.content}}</div>
+                <div>{{post.author}}</div>
+            </div>
+            {% endfor %} {% else %} None {% endif %}
+
+        </div>
+        <div class="main" id="main-bill-container">
+            <form method='post' action="/socialboard/create/" class="create-post">
+                {% csrf_token %}
+                <input type="text" name="title" placeholder="title" />
+                <textarea name="content" placeholder="write your post here"></textarea>
+                <input type="submit" value="post" />
+            </form>
+        </div>
+        <div class="column">
+            {% if latest_posts %} {% for post in latest_posts %}
+            <div class="mini-bill">
+                <div class="mini-title">{{post.title}}</div>
+                <div>{{post.content}}</div>
+                <div>{{post.author}}</div>
+            </div>
+            {% endfor %} {% else %} None {% endif %}
+        </div>
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form method='post' action="/socialboard/register/">
+                    {% csrf_token %}
+                    <input type="text" name="username" placeholder="username" />
+                    <input type="text" name="email" placeholder="email" />
+                    <input type="password" name="password" placeholder="password" />
+                    <input type="submit" value="register" />
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    {% load static %}
+    <script src="{% static 'socialboard/js.js' %}"></script>
+</body>
+
+</html>
